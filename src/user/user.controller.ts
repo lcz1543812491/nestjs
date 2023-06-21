@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CoreService } from '../core/core.service';
+import { LoggingInterceptor } from '../interception';
 
 @Controller('user')
 export class UserController {
@@ -19,6 +20,7 @@ export class UserController {
     return this.userService.getAllUser();
   }
 
+  @UseInterceptors(LoggingInterceptor)
   @Get('core')
   getCore(): string {
     return this.coreService.getCore();
