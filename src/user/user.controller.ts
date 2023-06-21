@@ -1,4 +1,10 @@
-import { Controller, Get, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseGuards,
+  UseInterceptors,
+  Inject,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CoreService } from '../core/core.service';
 import { LoggingInterceptor } from '../interception';
@@ -9,6 +15,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly coreService: CoreService,
+    @Inject('mockdata') private readonly mockData: { data: string },
   ) {}
 
   @Get()
@@ -19,6 +26,11 @@ export class UserController {
   @Get('all')
   getAllHello(): string {
     return this.userService.getAllUser();
+  }
+
+  @Get('mock')
+  getMock(): string {
+    return this.mockData.data;
   }
 
   @UseGuards(AuthGuard)
